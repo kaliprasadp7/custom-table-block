@@ -1,0 +1,40 @@
+.custom-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border-radius: 10px !important;
+}
+
+.custom-table th,
+.custom-table td {
+    border: 1px solid #000 !important;
+    padding: 8px !important;
+    text-align: left !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+}
+
+.custom-table th {
+    background-color: #f7f7f7 !important;
+}
+
+.custom-table td {
+    background-color: #ffffff !important;
+}
+
+.custom-table td input {
+    border: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    outline: none !important;
+}
+
+.custom-table td input:focus,
+.custom-table td input:active {
+    outline: none !important;
+}
+
+td input[type="text"] {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
