@@ -1,9 +1,9 @@
 (function () {
     var el = wp.element.createElement;
     var registerBlockType = wp.blocks.registerBlockType;
-    var RichText = wp.editor.RichText;
-    var BlockControls = wp.editor.BlockControls;
-    var AlignmentToolbar = wp.editor.AlignmentToolbar;
+    var RichText = wp.blockEditor.RichText; // Updated import
+    var BlockControls = wp.blockEditor.BlockControls; // Updated import
+    var AlignmentToolbar = wp.blockEditor.AlignmentToolbar; // Updated import
 
     registerBlockType('custom-table-block/custom-table', {
         title: 'Custom Table Block',
@@ -36,9 +36,22 @@
 
             function updateCellContent(rowIndex, colIndex, content) {
                 var updatedTableData = [...attributes.tableData];
+            
+                // Ensure the row is initialized
+                if (!updatedTableData[rowIndex]) {
+                    updatedTableData[rowIndex] = [];
+                }
+            
+                // Update the cell content
                 updatedTableData[rowIndex][colIndex] = content;
+            
+                // Remove empty rows at the end
+                while (updatedTableData.length > 0 && updatedTableData[updatedTableData.length - 1].every(cell => cell === '')) {
+                    updatedTableData.pop();
+                }
+            
                 props.setAttributes({ tableData: updatedTableData });
-            }
+            }            
 
             function handleRowsChange(change) {
                 const newRows = Math.max(2, attributes.rows + change);
