@@ -1,9 +1,9 @@
 (function () {
     var el = wp.element.createElement;
     var registerBlockType = wp.blocks.registerBlockType;
-    var RichText = wp.blockEditor.RichText; // Updated import
-    var BlockControls = wp.blockEditor.BlockControls; // Updated import
-    var AlignmentToolbar = wp.blockEditor.AlignmentToolbar; // Updated import
+    var RichText = wp.blockEditor.RichText;
+    var BlockControls = wp.blockEditor.BlockControls;
+    var AlignmentToolbar = wp.blockEditor.AlignmentToolbar;
 
     registerBlockType('custom-table-block/custom-table', {
         title: 'Custom Table Block',
@@ -36,22 +36,22 @@
 
             function updateCellContent(rowIndex, colIndex, content) {
                 var updatedTableData = [...attributes.tableData];
-            
+
                 // Ensure the row is initialized
                 if (!updatedTableData[rowIndex]) {
                     updatedTableData[rowIndex] = [];
                 }
-            
+
                 // Update the cell content
                 updatedTableData[rowIndex][colIndex] = content;
-            
+
                 // Remove empty rows at the end
                 while (updatedTableData.length > 0 && updatedTableData[updatedTableData.length - 1].every(cell => cell === '')) {
                     updatedTableData.pop();
                 }
-            
+
                 props.setAttributes({ tableData: updatedTableData });
-            }            
+            }
 
             function handleRowsChange(change) {
                 const newRows = Math.max(2, attributes.rows + change);
@@ -111,7 +111,7 @@
                         el('tr', null,
                             el('th', {
                                 key: 'editableHeader',
-                                colSpan: attributes.columns, // Set colSpan to cover full width
+                                colSpan: attributes.columns,
                             },
                                 el(RichText, {
                                     tagName: 'span',
@@ -119,6 +119,7 @@
                                     onChange: function (value) {
                                         props.setAttributes({ editableHeader: value });
                                     },
+                                    formattingControls: ['bold', 'italic', 'underline', 'link'],
                                 })
                             )
                         )
@@ -148,29 +149,35 @@
         save: function (props) {
             var attributes = props.attributes;
 
-            return el('table', { className: 'custom-table', style: { textAlign: attributes.alignment } },
-                el('thead', null,
-                    el('tr', null,
-                        el('th', {
-                            colSpan: attributes.columns,
-                        },
-                            attributes.editableHeader
+            return el(
+                'div',
+                { className: 'custom-table-container' },
+                el('table', { className: 'custom-table', style: { textAlign: attributes.alignment } },
+                    el('thead', null,
+                        el('tr', null,
+                            el('th', {
+                                colSpan: attributes.columns,
+                            },
+                                el(RichText.Content, {
+                                    value: attributes.editableHeader,
+                                })
+                            )
                         )
+                    ),
+                    el('tbody', null,
+                        Array.from({ length: attributes.rows }, function (_, rowIndex) {
+                            return el('tr', { key: rowIndex },
+                                Array.from({ length: attributes.columns }, function (_, colIndex) {
+                                    var cellValue = attributes.tableData[rowIndex] ? attributes.tableData[rowIndex][colIndex] : '';
+                                    return el('td', { key: colIndex },
+                                        el('div', {
+                                            dangerouslySetInnerHTML: { __html: cellValue },
+                                        })
+                                    );
+                                })
+                            );
+                        })
                     )
-                ),
-                el('tbody', null,
-                    Array.from({ length: attributes.rows }, function (_, rowIndex) {
-                        return el('tr', { key: rowIndex },
-                            Array.from({ length: attributes.columns }, function (_, colIndex) {
-                                var cellValue = attributes.tableData[rowIndex] ? attributes.tableData[rowIndex][colIndex] : '';
-                                return el('td', { key: colIndex },
-                                    el('div', {
-                                        dangerouslySetInnerHTML: { __html: cellValue },
-                                    })
-                                );
-                            })
-                        );
-                    })
                 )
             );
         },

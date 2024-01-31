@@ -39,3 +39,30 @@
 .custom-table tbody tr:hover {
     background-color: #f5f5f5; /* Light gray background on hover */
 }
+.control-wrapper .control-value{
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+}
+.control-wrapper .control-button{
+    padding: 10px 17px 12px 17px;
+    border-radius: 50%;
+}
+.control-wrapper .control-button:active{
+    background-color: #ddd;
+}
+
+.custom-table td:first-child {
+    min-width: 60px;
+    text-align: center !important; /* Set your desired minimum width */
+}
+.custom-table td:nth-child(2){
+    min-width: 140px;
+}
+.custom-table a{
+    color: #00B277 !important;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+.custom-table th a{
+    font-size: 16px;
+}

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Custom Table Block
  * Description: A custom Gutenberg block with a pre-designed table.
- * Version: 1.0
+ * Version: 1.1
  * Author: Kali Prasad Panda
  * Author URI: https://www.linkedin.com/in/kaliprasadp7/
  */
