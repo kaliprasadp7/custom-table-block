@@ -66,3 +66,6 @@
 .custom-table th a{
     font-size: 16px;
 }
+.media-toolbar {
+    position: static !important;
+}
